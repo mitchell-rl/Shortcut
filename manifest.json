@@ -1,0 +1,17 @@
+{
+  "name": "Shortcut",
+  "description": "Shortcuts for OOTS and PXU Support Agents",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["activeTab", "scripting", "webNavigation", "history", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://out-of-the-sandbox.zendesk.com/*"],
+      "js": ["shortcut.js"],
+      "css": ["shortcut_styles.css"]
+    }
+  ]
+}
