@@ -1,4 +1,12 @@
-.shortcut__button {
+.shortcut__button--success {
+  background: rgba(255, 255, 255, 0);
+  padding: 5px;
+  position: relative;
+  left: 242px;
+  top: -30px;
+}
+
+.shortcut__button--failure {
   background: rgba(255, 255, 255, 0);
   padding: 5px;
   position: relative;
