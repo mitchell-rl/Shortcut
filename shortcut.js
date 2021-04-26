@@ -9,6 +9,7 @@ let labels = [];
 let buttonsArray = [];
 
 function launchSearch(input) {
+  /* NOTE Still need to build out cases for PxU vs. OOTS Partner links */
   window.open(
     `https://partners.shopify.com/39932/stores?search_value=${input}`
   );
@@ -98,10 +99,10 @@ function buildButtons() {
 
     function build(btnURL, btnParent, btnType) {
       let partnerButton = document.createElement("button");
+      partnerButton.classList.add(type);
 
       if (btnType == "success") {
         // 1. Create the button
-        partnerButton.classList.add("shortcut__button--success");
         partnerButton.innerHTML = "&#x1F50E;";
         partnerButton.title = "Click to search partner dashboard.";
         // 2. Append to parent
@@ -111,20 +112,17 @@ function buildButtons() {
           launchSearch(value);
         });
       } else if (btnType == "failed-1") {
-        let inputBox = parent.childNodes[1];
+        let inputBox = parent.getElementsByTagName("INPUT")[0];
+        console.dir(inputBox);
         // 1. Create the button
-        partnerButton.classList.add("shortcut__button--failure");
         partnerButton.innerHTML = "&#9432;";
         partnerButton.title =
           "Invalid link. Please use storename.myshopify.com instead.";
-        // 2. Append to parent
-        parent.appendChild(partnerButton);
+        // 2. Do not add button for this case
         // 3. Add event handler
-        console.dir(inputBox);
-        inputBox.addEventListener("change", loadCheck()); // NOTE This is not working
+        inputBox.addEventListener("input", loadCheck()); // NOTE This may not be working - Should be on updating any of the inputs actually
       } else {
         // 1. Create the button
-        partnerButton.classList.add("shortcut__button--failure");
         partnerButton.innerHTML = "&#9432;";
         partnerButton.title =
           "Invalid link. Please use storename.myshopify.com instead.";
@@ -146,7 +144,7 @@ function buildButtons() {
 
 /* set timer to check for labels that exist on the page, and then run the program */
 function loadCheck() {
-  // initialize arrays - NOTE This is not enough to unload current buttons 🤔
+  // initialize arrays - NOTE This may not be enough to unload current buttons 🤔
   labels = [];
   buttonsArray = [];
 
