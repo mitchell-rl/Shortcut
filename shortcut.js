@@ -99,39 +99,43 @@ function buildButtons() {
 
     function build(btnURL, btnParent, btnType) {
       let partnerButton = document.createElement("button");
-      partnerButton.classList.add(type);
+      partnerButton.classList.add(btnType);
 
-      if (btnType == "success") {
-        // 1. Create the button
-        partnerButton.innerHTML = "&#x1F50E;";
-        partnerButton.title = "Click to search partner dashboard.";
-        // 2. Append to parent
-        parent.appendChild(partnerButton);
-        // 3. Add event handler
-        partnerButton.addEventListener("click", function () {
-          launchSearch(value);
-        });
-      } else if (btnType == "failed-1") {
-        let inputBox = parent.getElementsByTagName("INPUT")[0];
-        console.dir(inputBox);
-        // 1. Create the button
-        partnerButton.innerHTML = "&#9432;";
-        partnerButton.title =
-          "Invalid link. Please use storename.myshopify.com instead.";
-        // 2. Do not add button for this case
-        // 3. Add event handler
-        inputBox.addEventListener("input", loadCheck()); // NOTE This may not be working - Should be on updating any of the inputs actually
-      } else {
-        // 1. Create the button
-        partnerButton.innerHTML = "&#9432;";
-        partnerButton.title =
-          "Invalid link. Please use storename.myshopify.com instead.";
-        // 2. Append to parent
-        parent.appendChild(partnerButton);
-        // 3. Add event handler
-        partnerButton.addEventListener("click", function () {
-          launchSearch(value);
-        });
+      switch (btnType) {
+        case "success": {
+          // 1. Create the button
+          partnerButton.innerHTML = "&#x1F50E;";
+          partnerButton.title = "Click to search partner dashboard.";
+          // 2. Append to parent
+          parent.appendChild(partnerButton);
+          // 3. Add event handler
+          partnerButton.addEventListener("click", function () {
+            launchSearch(value);
+          });
+        }
+        case "failed-1": {
+          let inputBox = parent.getElementsByTagName("INPUT")[0];
+          console.dir(inputBox);
+          // 1. Create the button
+          partnerButton.innerHTML = "&#9432;";
+          partnerButton.title =
+            "Invalid link. Please use storename.myshopify.com instead.";
+          // 2. Do not add button for this case
+          // 3. Add event handler
+          inputBox.addEventListener("input", loadCheck()); // NOTE This may not be working - Should be on updating any of the inputs actually
+        }
+        case "failed-2": {
+          // 1. Create the button
+          partnerButton.innerHTML = "&#9432;";
+          partnerButton.title =
+            "Invalid link. Please use storename.myshopify.com instead.";
+          // 2. Append to parent
+          parent.appendChild(partnerButton);
+          // 3. Add event handler
+          partnerButton.addEventListener("click", function () {
+            launchSearch(value);
+          });
+        }
       }
     }
 
