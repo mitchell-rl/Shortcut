@@ -4,6 +4,14 @@
 - Run program 
 - Initialize timer
 */
+function removeShortcuts() {
+  let shortcuts = document.querySelectorAll("#shortcut");
+  console.log(shortcuts.length);
+
+  while (shortcuts[0]) {
+    shortcuts[0].parentNode.removeChild(shortcuts[0]);
+  }
+}
 
 let labels = [];
 let buttonsArray = [];
@@ -99,10 +107,12 @@ function buildButtons() {
 
     function build(btnURL, btnParent, btnType) {
       let partnerButton = document.createElement("button");
-      partnerButton.classList.add(btnType);
+      partnerButton.classList.add(`shortcut__button--${btnType}`);
+      partnerButton.setAttribute("id:", "shortcut");
 
       switch (btnType) {
         case "success": {
+          console.log("log success case");
           // 1. Create the button
           partnerButton.innerHTML = "&#x1F50E;";
           partnerButton.title = "Click to search partner dashboard.";
@@ -112,31 +122,33 @@ function buildButtons() {
           partnerButton.addEventListener("click", function () {
             launchSearch(value);
           });
+          break;
         }
-        case "failed-1": {
-          let inputBox = parent.getElementsByTagName("INPUT")[0];
-          console.dir(inputBox);
-          // 1. Create the button
-          partnerButton.innerHTML = "&#9432;";
-          partnerButton.title =
-            "Invalid link. Please use storename.myshopify.com instead.";
-          // 2. Do not add button for this case
-          // 3. Add event handler
-          inputBox.addEventListener("input", loadCheck()); // NOTE This may not be working - Should be on updating any of the inputs actually
-        }
+        case "failed-1":
         case "failed-2": {
+          let inputBox = parent.getElementsByTagName("INPUT")[0];
           // 1. Create the button
           partnerButton.innerHTML = "&#9432;";
           partnerButton.title =
             "Invalid link. Please use storename.myshopify.com instead.";
-          // 2. Append to parent
-          parent.appendChild(partnerButton);
-          // 3. Add event handler
-          partnerButton.addEventListener("click", function () {
-            launchSearch(value);
-          });
+          // 3. Add event handler and append button if URL found (aka failed-1 = no input and failed-2 = invalid input found)
+          if (btnType == "failed-1") {
+            inputBox.onchange = () => {
+              if (inputBox.value != "") {
+                loadCheck();
+              }
+            };
+          } else {
+            parent.appendChild(partnerButton);
+            partnerButton.addEventListener("click", function () {
+              launchSearch(value);
+            });
+          }
         }
       }
+      // partnerButton.addEventListener("change", function () {
+      //   launchSearch(value);
+      // }
     }
 
     //Check whether there's already a button here and only add one if not.
@@ -148,10 +160,12 @@ function buildButtons() {
 
 /* set timer to check for labels that exist on the page, and then run the program */
 function loadCheck() {
-  // initialize arrays - NOTE This may not be enough to unload current buttons 🤔
+  // initialize arrays and buttons
   labels = [];
   buttonsArray = [];
+  removeShortcuts();
 
+  //check for new labels
   let checkForLabels = setInterval(function () {
     findLabels();
     buildButtons();
@@ -169,3 +183,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 loadCheck();
+
+function logChange() {
+  console.log("change logged");
+}
