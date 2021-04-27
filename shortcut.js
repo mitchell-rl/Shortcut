@@ -4,18 +4,21 @@
 - Run program 
 - Initialize timer
 */
+
+// Function to remove any shortcut buttons that exist
 function removeShortcuts() {
   let shortcuts = document.querySelectorAll("#shortcut");
-  console.log(shortcuts.length);
 
-  while (shortcuts[0]) {
-    shortcuts[0].parentNode.removeChild(shortcuts[0]);
+  for (shortcut of shortcuts) {
+    shortcut.parentNode.removeChild(shortcut);
   }
 }
 
+// Initialize arrays used in program
 let labels = [];
 let buttonsArray = [];
 
+// Build search links
 function launchSearch(input) {
   /* NOTE Still need to build out cases for PxU vs. OOTS Partner links */
   window.open(
@@ -106,9 +109,11 @@ function buildButtons() {
     let type = button.type;
 
     function build(btnURL, btnParent, btnType) {
+      let inputBox = parent.getElementsByTagName("INPUT")[0];
       let partnerButton = document.createElement("button");
+
       partnerButton.classList.add(`shortcut__button--${btnType}`);
-      partnerButton.setAttribute("id:", "shortcut");
+      partnerButton.setAttribute("id", "shortcut");
 
       switch (btnType) {
         case "success": {
@@ -126,29 +131,18 @@ function buildButtons() {
         }
         case "failed-1":
         case "failed-2": {
-          let inputBox = parent.getElementsByTagName("INPUT")[0];
+          //NOTE Does not seem to be working currently?
           // 1. Create the button
           partnerButton.innerHTML = "&#9432;";
           partnerButton.title =
             "Invalid link. Please use storename.myshopify.com instead.";
           // 3. Add event handler and append button if URL found (aka failed-1 = no input and failed-2 = invalid input found)
-          if (btnType == "failed-1") {
-            inputBox.onchange = () => {
-              if (inputBox.value != "") {
-                loadCheck();
-              }
-            };
-          } else {
-            parent.appendChild(partnerButton);
-            partnerButton.addEventListener("click", function () {
-              launchSearch(value);
-            });
-          }
         }
       }
-      // partnerButton.addEventListener("change", function () {
-      //   launchSearch(value);
-      // }
+      // When input changes, run the program again
+      inputBox.onchange = () => {
+        loadCheck();
+      };
     }
 
     //Check whether there's already a button here and only add one if not.
@@ -158,23 +152,26 @@ function buildButtons() {
   }
 }
 
-/* set timer to check for labels that exist on the page, and then run the program */
+/* set timer to check every second for valid labels that exist on the page, and then run the program */
 function loadCheck() {
-  // initialize arrays and buttons
+  // initialize arrays and remove previous buttons
   labels = [];
   buttonsArray = [];
   removeShortcuts();
 
-  //check for new labels
+  //check for new labels and build new buttons
   let checkForLabels = setInterval(function () {
     findLabels();
     buildButtons();
+
+    // once labels are found, stop looking until loadCheck is called again
     if (buttonsArray.length > 0) {
       clearInterval(checkForLabels);
     }
   }, 1000);
 }
 
+// Run again any time that a "new page" message comes from the background script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message.includes("Tab:")) {
     console.log(`%cShortcuts– background: ${request.message}`, "color:white;");
@@ -182,8 +179,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
+// Run for the first time
 loadCheck();
-
-function logChange() {
-  console.log("change logged");
-}
