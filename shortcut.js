@@ -129,18 +129,18 @@ function buildButtons() {
           });
           break;
         }
-        case "failed-1":
+        case "failed-1": //NOTE Do we need differences in failed cases?
         case "failed-2": {
-          //NOTE Does not seem to be working currently?
           // 1. Create the button
           partnerButton.innerHTML = "&#9432;";
           partnerButton.title =
-            "Invalid link. Please use storename.myshopify.com instead.";
-          // 3. Add event handler and append button if URL found (aka failed-1 = no input and failed-2 = invalid input found)
+            "Invalid link. Please enter a storename.myshopify.com instead.";
+          parent.appendChild(partnerButton);
         }
       }
       // When input changes, run the program again
       inputBox.onchange = () => {
+        //NOTE Could add input validation on this stage
         loadCheck();
       };
     }
