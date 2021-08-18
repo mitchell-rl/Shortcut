@@ -21,7 +21,7 @@ let buttonsArray = [];
 // Build admin links
 function launchSearch(input) {
   window.open(
-    `${input}/admin`
+    `http://${input}/admin`
   );
 }
 
