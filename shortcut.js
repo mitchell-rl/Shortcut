@@ -18,11 +18,10 @@ function removeShortcuts() {
 let labels = [];
 let buttonsArray = [];
 
-// Build search links
+// Build admin links
 function launchSearch(input) {
-  /* NOTE Still need to build out cases for PxU vs. OOTS Partner links */
   window.open(
-    `https://partners.shopify.com/39932/stores?search_value=${input}`
+    `${input}/admin`
   );
 }
 
