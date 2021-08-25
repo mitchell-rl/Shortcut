@@ -56,10 +56,14 @@ function findLabels() {
     if (labelTitle === "storefront url") {
       //select it's input field
       let inputField = label.nextElementSibling;
+      let inputFieldString = inputField.value.toString();
+
+      let firstSlice = inputFieldString.indexOf('.myshopify.com');
+      let secondSlice = inputFieldString.indexOf('.');
+
       //Validate whether shopURL is a "myshopify.com" URL
-      if (inputField.value.toString().includes(".myshopify.com")) {
-        // success type
-        let shopURL = inputField.value.toString();
+      if (inputFieldString.includes(".myshopify.com")) {
+        let shopURL = inputFieldString.slice(firstSlice, secondSlice);
         console.log(
           `%cShortcuts– Valid Storefront URL found: ${shopURL}`,
           "color:green;"
@@ -67,20 +71,10 @@ function findLabels() {
         buttonsArray.push(
           new ShortcutButton(shopURL, inputField.parentElement, "success")
         );
-      } else {
-        // failure
-        let shopURL = inputField.value.toString();
-        console.log(
-          `%cShortcuts– Invalid Storefront URL found: ${shopURL}. Please use 'storename.myshopify.com' in Storefront URL ticket field.`,
-          "color:red;"
-        );
-        buttonsArray.push(
-          new ShortcutButton(shopURL, inputField.parentElement, "failed")
-        );
+      }
       }
     }
   }
-}
 
 /* 
 - For each object
