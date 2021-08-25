@@ -58,7 +58,7 @@ function findLabels() {
       let inputField = label.nextElementSibling;
       let inputFieldString = inputField.value.toString();
 
-      let firstSlice = inputFieldString.indexOf('.myshopify.com');
+      let firstSlice = inputFieldString.indexOf('myshopify.com');
       let secondSlice = inputFieldString.indexOf('.');
 
       //Validate whether shopURL is a "myshopify.com" URL
