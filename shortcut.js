@@ -67,25 +67,15 @@ function findLabels() {
         buttonsArray.push(
           new ShortcutButton(shopURL, inputField.parentElement, "success")
         );
-      } else if (inputField.value.toString() == "") {
-        // failure type 1 (no input)
-        let shopURL = inputField.value.toString();
-        console.log(
-          `%cShortcuts– No Storefront URL found. Please use 'storename.myshopify.com' in Storefront URL ticket field.`,
-          "color:red;"
-        );
-        buttonsArray.push(
-          new ShortcutButton(shopURL, inputField.parentElement, "failed-1")
-        );
       } else {
-        // failure type 2 (wrong input)
+        // failure
         let shopURL = inputField.value.toString();
         console.log(
           `%cShortcuts– Invalid Storefront URL found: ${shopURL}. Please use 'storename.myshopify.com' in Storefront URL ticket field.`,
           "color:red;"
         );
         buttonsArray.push(
-          new ShortcutButton(shopURL, inputField.parentElement, "failed-2")
+          new ShortcutButton(shopURL, inputField.parentElement, "failed")
         );
       }
     }
@@ -128,8 +118,7 @@ function buildButtons() {
           });
           break;
         }
-        case "failed-1": //NOTE Do we need differences in failed cases?
-        case "failed-2": {
+        case "failed": {
           // 1. Create the button
           partnerButton.innerHTML = "&#9432;";
           partnerButton.title =
