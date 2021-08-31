@@ -7,5 +7,11 @@ Install from the Chrome web store here: https://chrome.google.com/webstore/detai
 
 # Update instructions
 
-0. Open chrome://extensions/
-1. Click "Update" at the top-left of the screen to update to the latest published version
+1. Open chrome://extensions/
+2. Click "Update" at the top-left of the screen to update to the latest published version
+
+
+# How to use
+
+1. Make sure to add a .myshopify.com address to the "Storefront URL" input on our Zendesk form. 
+2. Click the 🔎 icon that shows up next to the URL to login to the respective shop! 
