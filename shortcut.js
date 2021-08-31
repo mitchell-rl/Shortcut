@@ -20,9 +20,7 @@ let buttonsArray = [];
 
 // Build admin links
 function launchSearch(input) {
-  window.open(
-    `http://${input}/admin`
-  );
+  window.open(`http://${input}.myshopify.com/admin`);
 }
 
 /* 
@@ -56,36 +54,28 @@ function findLabels() {
     if (labelTitle === "storefront url") {
       //select it's input field
       let inputField = label.nextElementSibling;
+      let inputFieldString = inputField.value.toString();
+
       //Validate whether shopURL is a "myshopify.com" URL
-      if (inputField.value.toString().includes(".myshopify.com")) {
-        // success type
-        let shopURL = inputField.value.toString();
+      if (inputFieldString.includes(".myshopify.com")) {
+        let shopURL = sanitize(inputFieldString);
+
+        function sanitize(string) {
+          let data = string;
+          let subdomain = data.search(".myshopify.com");
+          let start = data.substring(0, subdomain);
+
+          return start
+            .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
+            .split(".")[0];
+        }
+
         console.log(
           `%cShortcuts– Valid Storefront URL found: ${shopURL}`,
           "color:green;"
         );
         buttonsArray.push(
           new ShortcutButton(shopURL, inputField.parentElement, "success")
-        );
-      } else if (inputField.value.toString() == "") {
-        // failure type 1 (no input)
-        let shopURL = inputField.value.toString();
-        console.log(
-          `%cShortcuts– No Storefront URL found. Please use 'storename.myshopify.com' in Storefront URL ticket field.`,
-          "color:red;"
-        );
-        buttonsArray.push(
-          new ShortcutButton(shopURL, inputField.parentElement, "failed-1")
-        );
-      } else {
-        // failure type 2 (wrong input)
-        let shopURL = inputField.value.toString();
-        console.log(
-          `%cShortcuts– Invalid Storefront URL found: ${shopURL}. Please use 'storename.myshopify.com' in Storefront URL ticket field.`,
-          "color:red;"
-        );
-        buttonsArray.push(
-          new ShortcutButton(shopURL, inputField.parentElement, "failed-2")
         );
       }
     }
@@ -128,8 +118,7 @@ function buildButtons() {
           });
           break;
         }
-        case "failed-1": //NOTE Do we need differences in failed cases?
-        case "failed-2": {
+        case "failed": {
           // 1. Create the button
           partnerButton.innerHTML = "&#9432;";
           partnerButton.title =
