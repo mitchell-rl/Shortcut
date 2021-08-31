@@ -20,9 +20,7 @@ let buttonsArray = [];
 
 // Build admin links
 function launchSearch(input) {
-  window.open(
-    `http://${input}/admin`
-  );
+  window.open(`http://${input}.myshopify.com/admin`);
 }
 
 /* 
@@ -58,12 +56,20 @@ function findLabels() {
       let inputField = label.nextElementSibling;
       let inputFieldString = inputField.value.toString();
 
-      let firstSlice = inputFieldString.indexOf('myshopify.com');
-      let secondSlice = inputFieldString.indexOf('.');
-
       //Validate whether shopURL is a "myshopify.com" URL
       if (inputFieldString.includes(".myshopify.com")) {
-        let shopURL = inputFieldString.slice(firstSlice, secondSlice);
+        let shopURL = sanitize(inputFieldString);
+
+        function sanitize(string) {
+          let data = string;
+          let subdomain = data.search(".myshopify.com");
+          let start = data.substring(0, subdomain);
+
+          return start
+            .replace(/^(?:https?:\/\/)?(?:www\.)?/i, "")
+            .split(".")[0];
+        }
+
         console.log(
           `%cShortcuts– Valid Storefront URL found: ${shopURL}`,
           "color:green;"
@@ -72,9 +78,9 @@ function findLabels() {
           new ShortcutButton(shopURL, inputField.parentElement, "success")
         );
       }
-      }
     }
   }
+}
 
 /* 
 - For each object
