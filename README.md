@@ -15,3 +15,5 @@ Install from the Chrome web store here: https://chrome.google.com/webstore/detai
 
 1. Make sure to add a .myshopify.com address to the "Storefront URL" input on our Zendesk form. 
 2. Click the 🔎 icon that shows up next to the URL to login to the respective shop! 
+
+Here's a video illustrating how this works: https://files.pxu.co/YEuOOWyn
