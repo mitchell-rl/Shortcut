@@ -9,7 +9,7 @@
 function removeShortcuts() {
   let shortcuts = document.querySelectorAll("#shortcut");
 
-  for (shortcut of shortcuts) {
+  for (let shortcut of shortcuts) {
     shortcut.parentNode.removeChild(shortcut);
   }
 }
